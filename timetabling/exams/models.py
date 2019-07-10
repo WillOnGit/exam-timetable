@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import Group
 from django.core.validators import MinValueValidator
+from django.contrib.auth.models import User
 
 class Exam(models.Model):
     name = models.CharField('Name', max_length=100)
@@ -26,6 +27,11 @@ class ExamVenue(models.Model):
 
     def __str__(self):
         return self.examname + "@" + self.roomname
+
+class InvigilatorResponse(models.Model):
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    can_make = models.BooleanField('I can make that!')
+    whoami = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class ExamsAdmin(Group):
     pass
