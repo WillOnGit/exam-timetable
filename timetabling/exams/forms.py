@@ -5,5 +5,7 @@ class RestrictedResponseForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RestrictedResponseForm, self).__init__(*args,**kwargs)
-        if self.instance.exam:
+        try:
             self.fields['assigned_venue'].queryset = ExamVenue.objects.filter(exam=self.instance.exam)
+        except:
+            self.fields['assigned_venue'].queryset = ExamVenue.objects.none()
